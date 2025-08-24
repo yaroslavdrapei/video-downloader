@@ -38,6 +38,9 @@ importers:
       rxjs:
         specifier: ^7.8.1
         version: 7.8.2
+      ytdlp-nodejs:
+        specifier: ^2.3.4
+        version: 2.3.4
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3.2.0
@@ -3116,6 +3119,11 @@ packages:
   yoctocolors-cjs@2.1.2:
     resolution: {integrity: sha512-cYVsTjKl8b+FrnidjibDWskAv7UKOfcwaVZdp/it9n1s9fU3IkgDbhdIRKCW4JDsAlECJY0ytoVPT3sK6kideA==}
     engines: {node: '>=18'}
+
+  ytdlp-nodejs@2.3.4:
+    resolution: {integrity: sha512-uLROl2N9lHsK7N7wvnYzWsCwFR8yqjOBqR82efbnPxnl0bZUmy1H2yq1J3bsjSDERTxSaG176wn7tKzTD045Xw==}
+    engines: {node: '>=16.0.0'}
+    hasBin: true
 
 snapshots:
 
@@ -6533,3 +6541,5 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   yoctocolors-cjs@2.1.2: {}
+
+  ytdlp-nodejs@2.3.4: {}

@@ -21,11 +21,11 @@ export class AppController {
 	}
 
 	@Post('/download')
-	async download(@Body() body: DownloadVideoRequestDto, @Res() response: Response): Promise<void> {
+	download(@Body() body: DownloadVideoRequestDto, @Res() response: Response): void {
 		const { link, formatId } = body;
 		const platform = this.platformFactory.get(link);
 
-		const file = await platform.download(link, formatId);
+		const file = platform.download(link, formatId);
 		file.pipe(response);
 		return;
 	}

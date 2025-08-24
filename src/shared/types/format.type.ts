@@ -1,7 +1,8 @@
 export type Format = {
-  id: string;
-  ext: string;
-  filesize: string;
-  vcodec: string | null;
-  acodec: string | null;
-}
+	id: string;
+	ext: string;
+	filesize: number;
+	resolution?: string | null;
+	vcodec: string | null;
+	acodec: string | null;
+};

@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
 import { YtdlpService } from './ytdlp.service';
-import { YtdlpCliService } from './ytdlp-cli.service';
+import { MapperModule } from '@src/shared/mapper/mapper.module';
 
 @Module({
-	providers: [YtdlpService, YtdlpCliService],
+	imports: [MapperModule],
+	providers: [YtdlpService],
 	exports: [YtdlpService]
 })
+
 export class YtdlpModule {}

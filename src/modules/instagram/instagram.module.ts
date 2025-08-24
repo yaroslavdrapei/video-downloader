@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
 import { InstagramService } from './instagram.service';
+import { DownloaderModule } from '../downloader/downloader.module';
 
 @Module({
+	imports: [DownloaderModule],
 	providers: [InstagramService],
 	exports: [InstagramService]
 })
