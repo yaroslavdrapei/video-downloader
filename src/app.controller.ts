@@ -5,8 +5,9 @@ import { DownloadVideoRequestDto } from './dto/request/download-video-request.dt
 import { InfoDto } from './dto/response/info.dto';
 import { type Response } from 'express';
 import { ApiTags, ApiOperation, ApiResponse, ApiQuery, ApiBody } from '@nestjs/swagger';
+import sanitize from 'sanitize-filename';
 
-@ApiTags('videos')
+@ApiTags('Videos')
 @Controller('api')
 export class AppController {
 	constructor(private readonly platformFactory: PlatformFactory) {}
@@ -58,10 +59,14 @@ export class AppController {
 		const { link, formatId } = body;
 		const platform = this.platformFactory.get(link);
 
-		const file = await platform.download(link, formatId);
+		const { stream, fileExtension, title } = await platform.download(link, formatId);
+
+		const filename = `${sanitize(title)}.${fileExtension}`;
 
 		response.setHeader('Content-Type', 'application/octet-stream');
-		file.pipe(response);
+		response.setHeader('Content-Disposition', `attachment; filename=${filename}`);
+
+		stream.pipe(response);
 		return;
 	}
 }

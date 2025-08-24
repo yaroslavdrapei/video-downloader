@@ -3,7 +3,7 @@ import { RedisService } from '@src/infrastructure/redis/redis.service';
 import { FORMATS_CACHE_TIME } from '@src/shared/constants/constants';
 import { IDownloaderToken } from '@src/shared/constants/tokens';
 import type { IDownloader } from '@src/shared/interfaces/downloader.interface';
-import { IPlatform } from '@src/shared/interfaces/platform.interface';
+import { DownloadResult, IPlatform } from '@src/shared/interfaces/platform.interface';
 import { Info } from '@src/shared/types/info.type';
 import { Readable } from 'stream';
 
@@ -28,7 +28,7 @@ export class YoutubeService implements IPlatform {
 		return info;
 	}
 
-	async download(link: string, formatId: string): Promise<Readable> {
+	async download(link: string, formatId: string): Promise<DownloadResult> {
 		const key = `info-${link}`;
 		const infoString = await this.redisService.get(key);
 
@@ -50,6 +50,10 @@ export class YoutubeService implements IPlatform {
 				? this.downloaderService.mergeDownload(link, formatId, DEFAULT_AUDIO_FORMAT_ID)
 				: this.downloaderService.basicDownload(link, formatId);
 
-		return stream;
+		return {
+			stream,
+			title: info.title,
+			fileExtension: format.vcodec == 'none' ? 'mp3' : 'mp4'
+		};
 	}
 }

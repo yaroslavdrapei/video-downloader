@@ -2,7 +2,7 @@ import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { RedisService } from '@src/infrastructure/redis/redis.service';
 import { IDownloaderToken } from '@src/shared/constants/tokens';
 import type { IDownloader } from '@src/shared/interfaces/downloader.interface';
-import { IPlatform } from '@src/shared/interfaces/platform.interface';
+import { DownloadResult, IPlatform } from '@src/shared/interfaces/platform.interface';
 import { Info } from '@src/shared/types/info.type';
 import { Readable } from 'stream';
 
@@ -18,7 +18,7 @@ export class TiktokService implements IPlatform {
 		return info;
 	}
 
-	async download(link: string, formatId: string): Promise<Readable> {
+	async download(link: string, formatId: string): Promise<DownloadResult> {
 		const key = `info-${link}`;
 		const infoString = await this.redisService.get(key);
 
@@ -35,6 +35,10 @@ export class TiktokService implements IPlatform {
 			throw new BadRequestException('Invalid format id');
 		}
 
-		return this.downloaderService.basicDownload(link, formatId);
+		return {
+			stream: this.downloaderService.basicDownload(link, formatId),
+			title: info.title,
+			fileExtension: format.vcodec == 'none' ? 'mp3' : 'mp4'
+		};
 	}
 }
