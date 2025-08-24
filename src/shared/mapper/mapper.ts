@@ -6,16 +6,14 @@ import { YtdlpInfo, YtdlpFormat } from '../../modules/downloader/ytdlp/ytdlp.typ
 @Injectable()
 export class Mapper {
 	mapYtdlpFormats(formats: YtdlpFormat[]): Format[] {
-		return formats
-			.filter((f) => f.filesize)
-			.map((format) => ({
-				vcodec: format.vcodec,
-				acodec: format.acodec,
-				id: format.format_id,
-				ext: format.ext,
-				resolution: format.resolution,
-				filesize: format.filesize!
-			}));
+		return formats.map((format) => ({
+			vcodec: format.vcodec,
+			acodec: format.acodec,
+			id: format.format_id,
+			ext: format.ext,
+			resolution: format.resolution,
+			filesize: format.filesize || 0
+		}));
 	}
 
 	mapYtdlpInfo(info: YtdlpInfo): Info {

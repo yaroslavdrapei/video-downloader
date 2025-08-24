@@ -1,10 +1,10 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { RedisService } from '@src/infrastructure/redis/redis.service';
+import { FORMATS_CACHE_TIME } from '@src/shared/constants/constants';
 import { IDownloaderToken } from '@src/shared/constants/tokens';
 import type { IDownloader } from '@src/shared/interfaces/downloader.interface';
 import { DownloadResult, IPlatform } from '@src/shared/interfaces/platform.interface';
 import { Info } from '@src/shared/types/info.type';
-import { Readable } from 'stream';
 
 @Injectable()
 export class TiktokService implements IPlatform {
@@ -14,7 +14,14 @@ export class TiktokService implements IPlatform {
 	) {}
 
 	async getInfo(link: string): Promise<Info> {
-		const info = await this.downloaderService.getInfo(link);
+		const key = `info-${link}`;
+
+		const infoString = await this.redisService.get(key);
+
+		const info = infoString ? (JSON.parse(infoString) as Info) : await this.downloaderService.getInfo(link);
+
+		await this.redisService.set(key, JSON.stringify(info), FORMATS_CACHE_TIME);
+
 		return info;
 	}
 
