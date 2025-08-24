@@ -2,8 +2,10 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { IDownloader } from '@src/shared/interfaces/downloader.interface';
 import { Info } from '@src/shared/types/info.type';
 import { PassThrough, Readable } from 'stream';
-import { VideoInfo, YtDlp } from 'ytdlp-nodejs';
+import { YtDlp } from 'ytdlp-nodejs';
 import { Mapper } from '@shared/mapper/mapper';
+
+// TODO: broken installation of ffmpeg, fix later, use the default from lib rn
 
 @Injectable()
 export class YtdlpService implements IDownloader {
@@ -34,7 +36,7 @@ export class YtdlpService implements IDownloader {
 	}
 
 	mergeDownload(link: string, formatId: string, audioFormatId: string): Readable {
-		const stream = this.ytdlp.stream(link, { format: formatId + audioFormatId });
+		const stream = this.ytdlp.stream(link, { format: `${formatId}+${audioFormatId}` });
 		const readable = new PassThrough();
 		stream.pipe(readable);
 		return readable;

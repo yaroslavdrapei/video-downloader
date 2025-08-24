@@ -54,11 +54,11 @@ export class AppController {
 		}
 	})
 	@Post('/download')
-	download(@Body() body: DownloadVideoRequestDto, @Res() response: Response): void {
+	async download(@Body() body: DownloadVideoRequestDto, @Res() response: Response): Promise<void> {
 		const { link, formatId } = body;
 		const platform = this.platformFactory.get(link);
 
-		const file = platform.download(link, formatId);
+		const file = await platform.download(link, formatId);
 
 		response.setHeader('Content-Type', 'application/octet-stream');
 		file.pipe(response);

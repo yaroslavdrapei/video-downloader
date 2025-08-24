@@ -3,6 +3,6 @@ export type Format = {
 	ext: string;
 	filesize: number;
 	resolution?: string | null;
-	vcodec: string | null;
-	acodec: string | null;
+	vcodec: string;
+	acodec: string;
 };
