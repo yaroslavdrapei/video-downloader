@@ -47,8 +47,8 @@ export class YoutubeService implements IPlatform {
 
 		const stream =
 			format.acodec == 'none'
-				? this.downloaderService.mergeDownload(link, formatId, DEFAULT_AUDIO_FORMAT_ID)
-				: this.downloaderService.basicDownload(link, formatId);
+				? await this.downloaderService.mergeDownload(link, formatId, DEFAULT_AUDIO_FORMAT_ID)
+				: await this.downloaderService.basicDownload(link, formatId);
 
 		return {
 			stream,

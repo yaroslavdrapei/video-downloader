@@ -43,7 +43,7 @@ export class TiktokService implements IPlatform {
 		}
 
 		return {
-			stream: this.downloaderService.basicDownload(link, formatId),
+			stream: await this.downloaderService.basicDownload(link, formatId),
 			title: info.title,
 			fileExtension: format.vcodec == 'none' ? 'mp3' : 'mp4'
 		};

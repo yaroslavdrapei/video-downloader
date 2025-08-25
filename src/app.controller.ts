@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Res, UseInterceptors } from '@nestjs/common';
 import { PlatformFactory } from './modules/platform/platform.factory';
 import { Info } from '@shared/types/info.type';
 import { DownloadVideoRequestDto } from './dto/request/download-video-request.dto';
@@ -6,6 +6,8 @@ import { InfoDto } from './dto/response/info.dto';
 import { type Response } from 'express';
 import { ApiTags, ApiOperation, ApiResponse, ApiQuery, ApiBody } from '@nestjs/swagger';
 import sanitize from 'sanitize-filename';
+import contentDisposition from 'content-disposition';
+import { DownloaderInterceptor } from '@src/modules/downloader/downloader.interceptor';
 
 @ApiTags('Videos')
 @Controller('api')
@@ -54,6 +56,7 @@ export class AppController {
 			'application/octet-stream': {}
 		}
 	})
+	@UseInterceptors(new DownloaderInterceptor())
 	@Post('/download')
 	async download(@Body() body: DownloadVideoRequestDto, @Res() response: Response): Promise<void> {
 		const { link, formatId } = body;
@@ -64,7 +67,7 @@ export class AppController {
 		const filename = `${sanitize(title)}.${fileExtension}`;
 
 		response.setHeader('Content-Type', 'application/octet-stream');
-		response.setHeader('Content-Disposition', `attachment; filename=${filename}`);
+		response.setHeader('Content-Disposition', contentDisposition(filename));
 
 		stream.pipe(response);
 		return;

@@ -51,10 +51,10 @@ export class InstagramService implements IPlatform {
 			const audioFormat = formats.find((f) => f.vcodec == 'none')!;
 			console.log('Merge', formatId, audioFormat.id);
 			console.log(audioFormat);
-			stream = this.downloaderService.mergeDownload(link, formatId, audioFormat.id);
+			stream = await this.downloaderService.mergeDownload(link, formatId, audioFormat.id);
 		} else {
 			console.log('Basic');
-			stream = this.downloaderService.basicDownload(link, formatId);
+			stream = await this.downloaderService.basicDownload(link, formatId);
 		}
 
 		return {
