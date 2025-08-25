@@ -73,7 +73,7 @@ export async function downloadVideoWithProgress(
     }
   }
 
-  const blob = new Blob(chunks);
+  const blob = new Blob(chunks as BlobPart[]);
   return { blob, filename };
 }
 

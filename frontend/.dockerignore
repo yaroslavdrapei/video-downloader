@@ -1,0 +1,34 @@
+# dependencies
+node_modules
+.pnpm-store
+*.log
+
+# build output
+dist
+build
+.cache
+.next
+out
+
+# environment
+.env
+.env.* 
+
+# editor & system files
+.vscode
+.idea
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# tests & coverage
+coverage
+*.spec.js
+*.spec.ts
+*.test.js
+*.test.ts
+
+# docker
+Dockerfile*
+.dockerignore
