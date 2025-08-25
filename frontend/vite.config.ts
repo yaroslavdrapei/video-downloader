@@ -5,7 +5,7 @@ import { fileURLToPath, URL } from 'node:url';
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 5000,
+    port: 5173,
     proxy: {
       '/api': {
         target: 'http://localhost:3000',
