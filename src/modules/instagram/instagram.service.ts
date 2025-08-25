@@ -7,6 +7,8 @@ import { DownloadResult, IPlatform } from '@src/shared/interfaces/platform.inter
 import { Info } from '@src/shared/types/info.type';
 import { Readable } from 'stream';
 
+// TODO: fix merge for instagram, doesn't work for now
+
 @Injectable()
 export class InstagramService implements IPlatform {
 	constructor(
@@ -45,10 +47,13 @@ export class InstagramService implements IPlatform {
 
 		let stream: Readable;
 
-		if (format.acodec == 'video only') {
+		if (format.acodec == 'none') {
 			const audioFormat = formats.find((f) => f.vcodec == 'none')!;
+			console.log('Merge', formatId, audioFormat.id);
+			console.log(audioFormat);
 			stream = this.downloaderService.mergeDownload(link, formatId, audioFormat.id);
 		} else {
+			console.log('Basic');
 			stream = this.downloaderService.basicDownload(link, formatId);
 		}
 
