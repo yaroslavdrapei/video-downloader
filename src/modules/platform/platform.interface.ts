@@ -1,5 +1,5 @@
 import { Readable } from 'stream';
-import { Info } from '../types/info.type';
+import { Info } from '../../shared/types/info.type';
 
 export type DownloadResult = { stream: Readable; fileExtension: 'mp4' | 'mp3'; title: string };
 

@@ -1,9 +1,9 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { RedisService } from '@src/infrastructure/redis/redis.service';
-import { FORMATS_CACHE_TIME } from '@src/shared/constants/constants';
-import { IDownloaderToken } from '@src/shared/constants/tokens';
-import type { IDownloader } from '@src/shared/interfaces/downloader.interface';
-import { DownloadResult, IPlatform } from '@src/shared/interfaces/platform.interface';
+import { FORMATS_CACHE_TIME } from '../platform.constants';
+import { IDownloaderToken } from '@src/modules/downloader/downloader.constants';
+import type { IDownloader } from '@src/modules/downloader/downloader.interface';
+import { DownloadResult, IPlatform } from '@src/modules/platform/platform.interface';
 import { Info } from '@src/shared/types/info.type';
 
 @Injectable()

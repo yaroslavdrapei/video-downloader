@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
-import { IDownloader } from '@src/shared/interfaces/downloader.interface';
+import { IDownloader } from '@src/modules/downloader/downloader.interface';
 import { Info } from '@src/shared/types/info.type';
 import { PassThrough, Readable } from 'stream';
 import { YtDlp } from 'ytdlp-nodejs';

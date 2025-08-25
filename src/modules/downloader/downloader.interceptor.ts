@@ -1,7 +1,7 @@
 import { CallHandler, ExecutionContext, Injectable, Logger, NestInterceptor } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import type { Request, Response } from 'express';
-import { DownloadVideoRequestDto } from '@src/dto/request/download-video-request.dto';
+import { DownloadVideoRequestDto } from '@src/shared/dto/request/download-video-request.dto';
 
 @Injectable()
 export class DownloaderInterceptor implements NestInterceptor {

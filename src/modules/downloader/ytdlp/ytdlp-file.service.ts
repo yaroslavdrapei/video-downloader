@@ -1,13 +1,13 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
-import { IDownloader } from '@src/shared/interfaces/downloader.interface';
+import { IDownloader } from '@src/modules/downloader/downloader.interface';
 import { Info } from '@src/shared/types/info.type';
 import { Readable } from 'stream';
 import { YtDlp } from 'ytdlp-nodejs';
 import { Mapper } from '@shared/mapper/mapper';
-import { OUTPUT_DIR } from '@src/shared/constants/constants';
 import { createReadStream } from 'fs';
 import { unlink } from 'fs/promises';
 import sanitize from 'sanitize-filename';
+import { OUTPUT_DIR } from '../downloader.constants';
 
 // TODO: broken installation of ffmpeg, fix later, use the default from lib rn
 

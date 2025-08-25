@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { YoutubeService } from '../youtube/youtube.service';
-import { IPlatform } from '@src/shared/interfaces/platform.interface';
-import { TiktokService } from '../tiktok/tiktok.service';
-import { InstagramService } from '../instagram/instagram.service';
+import { YoutubeService } from './youtube/youtube.service';
+import { IPlatform } from '@src/modules/platform/platform.interface';
+import { TiktokService } from './tiktok/tiktok.service';
+import { InstagramService } from './instagram/instagram.service';
 
 @Injectable()
 export class PlatformFactory {

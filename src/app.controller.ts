@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Post, Query, Res, UseInterceptors } from '@nestjs/common';
 import { PlatformFactory } from './modules/platform/platform.factory';
 import { Info } from '@shared/types/info.type';
-import { DownloadVideoRequestDto } from './dto/request/download-video-request.dto';
-import { InfoDto } from './dto/response/info.dto';
+import { DownloadVideoRequestDto } from './shared/dto/request/download-video-request.dto';
+import { InfoDto } from './shared/dto/response/info.dto';
 import { type Response } from 'express';
 import { ApiTags, ApiOperation, ApiResponse, ApiQuery, ApiBody } from '@nestjs/swagger';
 import sanitize from 'sanitize-filename';
