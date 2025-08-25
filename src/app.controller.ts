@@ -4,7 +4,7 @@ import { Info } from '@shared/types/info.type';
 import { DownloadVideoRequestDto } from './shared/dto/request/download-video-request.dto';
 import { InfoDto } from './shared/dto/response/info.dto';
 import { type Response } from 'express';
-import { ApiTags, ApiOperation, ApiResponse, ApiQuery, ApiBody } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiQuery, ApiBody, ApiBadRequestResponse } from '@nestjs/swagger';
 import sanitize from 'sanitize-filename';
 import contentDisposition from 'content-disposition';
 import { DownloaderInterceptor } from '@src/modules/downloader/downloader.interceptor';
@@ -36,6 +36,7 @@ export class AppController {
 		description: 'Video information retrieved successfully',
 		type: InfoDto
 	})
+	@ApiBadRequestResponse({ description: 'Bad Request: unsupported platform; formats could not be retrieved.' })
 	@Get('/info')
 	async getInfo(@Query('link') link: string): Promise<Info> {
 		const platform = this.platformFactory.get(link);
@@ -55,6 +56,9 @@ export class AppController {
 		content: {
 			'application/octet-stream': {}
 		}
+	})
+	@ApiBadRequestResponse({
+		description: 'Bad Request: unsupported platform; invalid format id; playlist not supported.'
 	})
 	@UseInterceptors(new DownloaderInterceptor())
 	@Post('/download')

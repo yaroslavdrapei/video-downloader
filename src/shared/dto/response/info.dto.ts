@@ -27,14 +27,14 @@ export class InfoDto {
 				filesize: 52428800,
 				resolution: '1920x1080',
 				vcodec: 'h264',
-				acodec: 'video only'
+				acodec: 'none'
 			},
 			{
 				id: '140',
 				ext: 'mp3',
 				filesize: 10485760,
 				resolution: 'audio only',
-				vcodec: 'audio only',
+				vcodec: 'none',
 				acodec: 'aac'
 			}
 		]
