@@ -23,6 +23,11 @@ export class InstagramService implements IPlatform {
 
 		const info = infoString ? (JSON.parse(infoString) as Info) : await this.downloaderService.getInfo(link);
 
+		info.formats = info.formats.map((f) => ({
+			...f,
+			ext: f.ext === 'm4a' ? 'mp3' : f.ext
+		}));
+
 		await this.redisService.set(key, JSON.stringify(info), FORMATS_CACHE_TIME);
 
 		return info;
