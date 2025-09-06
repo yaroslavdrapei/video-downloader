@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
-import { InfrastructureModule } from './infrastructure/infrastructure.module';
 import { ConfigModule } from '@nestjs/config';
 import { PlatformModule } from './modules/platform/platform.module';
+import { RedisModule } from './infrastructure/redis/redis.module';
 
 @Module({
 	imports: [
@@ -11,7 +11,7 @@ import { PlatformModule } from './modules/platform/platform.module';
 			isGlobal: true,
 			envFilePath: ['.env', '.env.development']
 		}),
-		InfrastructureModule,
+		RedisModule,
 		PlatformModule
 	],
 	controllers: [AppController]

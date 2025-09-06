@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { YoutubeService } from './youtube.service';
 import { DownloaderModule } from '../../downloader/downloader.module';
-import { InfrastructureModule } from '@infrastructure/infrastructure.module';
+import { RedisModule } from '@src/infrastructure/redis/redis.module';
 
 @Module({
-	imports: [DownloaderModule, InfrastructureModule],
+	imports: [DownloaderModule, RedisModule],
 	providers: [YoutubeService],
 	exports: [YoutubeService]
 })
