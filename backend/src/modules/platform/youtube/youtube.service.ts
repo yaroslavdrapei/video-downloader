@@ -6,7 +6,7 @@ import { DownloadResult, IPlatform } from '@src/modules/platform/platform.interf
 import { Info } from '@src/shared/types/info.type';
 import { FORMATS_CACHE_TIME } from '../platform.constants';
 
-const DEFAULT_AUDIO_FORMAT_ID = '140';
+const DEFAULT_AUDIO_FORMAT_ID = 'bestaudio';
 const BAD_YT_FORMAT_IDS = ['394', '395', '396', '397', '398', '399', '400', '401', '402', '140-drc'];
 const supportedExts = ['mp4', 'm4a', 'mp3'];
 
