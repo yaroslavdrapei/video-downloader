@@ -1,10 +1,11 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { YoutubeService } from './youtube.service';
 import { DownloaderModule } from '../../downloader/downloader.module';
-import { RedisModule } from '@src/infrastructure/redis/redis.module';
+import { RepositoriesModule } from '@src/infrastructure/repositories/repositories.module';
+import { PlatformModule } from '../platform.module';
 
 @Module({
-	imports: [DownloaderModule, RedisModule],
+	imports: [DownloaderModule, RepositoriesModule, forwardRef(() => PlatformModule)],
 	providers: [YoutubeService],
 	exports: [YoutubeService]
 })

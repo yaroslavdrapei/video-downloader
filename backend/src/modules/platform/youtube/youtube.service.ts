@@ -1,5 +1,4 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
-import { RedisService } from '@src/infrastructure/redis/redis.service';
 import { IDownloaderToken } from '@src/modules/downloader/downloader.constants';
 import type { IDownloader } from '@src/modules/downloader/downloader.interface';
 import { DownloadResult, IPlatform } from '@src/modules/platform/platform.interface';
@@ -7,7 +6,6 @@ import { Info } from '@src/shared/types/info.type';
 import { FORMATS_CACHE_TIME } from '../platform.constants';
 import { TaskInMemoryRepository } from '@src/infrastructure/repositories/task/task-in-memory.repository';
 import { TaskStatus } from '@src/modules/task/task-status.enum';
-import { Task } from '@src/modules/task/task.entity';
 import { PlatformHelperService } from '@modules/platform/platfrom-helper.service';
 
 const DEFAULT_AUDIO_FORMAT_ID = 'bestaudio';
@@ -18,16 +16,16 @@ const supportedExts = ['mp4', 'm4a', 'mp3'];
 export class YoutubeService implements IPlatform {
 	constructor(
 		@Inject(IDownloaderToken) private readonly downloaderService: IDownloader,
-		private readonly redisService: RedisService,
 		private readonly taskRepository: TaskInMemoryRepository,
 		private readonly platformHelperService: PlatformHelperService
 	) {}
 
 	async getInfo(link: string): Promise<Info> {
-		const key = `info-${link}`;
-		const infoString = await this.redisService.get(key);
-
-		const info = infoString ? (JSON.parse(infoString) as Info) : await this.downloaderService.getInfo(link);
+		const info = await this.platformHelperService.getInfoCacheable(
+			link,
+			() => this.downloaderService.getInfo(link),
+			FORMATS_CACHE_TIME
+		);
 
 		info.formats = info.formats
 			.filter((f) => {
@@ -38,21 +36,17 @@ export class YoutubeService implements IPlatform {
 				ext: f.ext === 'm4a' ? 'mp3' : f.ext
 			}));
 
-		await this.redisService.set(key, JSON.stringify(info), FORMATS_CACHE_TIME);
 		return info;
 	}
 
 	async download(link: string, formatId: string): Promise<DownloadResult> {
-		const key = `info-${link}`;
-		const infoString = await this.redisService.get(key);
+		const info = await this.platformHelperService.getCachedInfo(link);
 
-		if (!infoString) {
+		if (!info) {
 			throw new BadRequestException("Formats for this video couldn't be retrieved, try again");
 		}
 
-		const info = JSON.parse(infoString) as Info;
 		const formats = info.formats;
-
 		const format = formats.find((f) => f.id === formatId);
 
 		if (!format) {
@@ -72,14 +66,12 @@ export class YoutubeService implements IPlatform {
 	}
 
 	async initialize(link: string, formatId: string): Promise<string> {
-		const key = `info-${link}`;
-		const infoString = await this.redisService.get(key);
+		const info = await this.platformHelperService.getCachedInfo(link);
 
-		if (!infoString) {
+		if (!info) {
 			throw new BadRequestException("Formats for this video couldn't be retrieved, try again");
 		}
 
-		const info = JSON.parse(infoString) as Info;
 		const formats = info.formats;
 
 		const format = formats.find((f) => f.id === formatId);
