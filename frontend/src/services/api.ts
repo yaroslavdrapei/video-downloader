@@ -37,7 +37,7 @@ export async function downloadVideoWithProgress(
   onProgress: (loadedBytes: number, totalBytes?: number) => void,
   signal?: AbortSignal
 ): Promise<DownloadResult> {
-  const res = await fetch('/api/download', {
+  const res = await fetch('/api/v0/download', {
     method: 'POST',
     headers: JSON_HEADERS,
     body: JSON.stringify(body),
