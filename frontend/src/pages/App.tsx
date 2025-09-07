@@ -6,7 +6,7 @@ export function App() {
       <header className="border-b border-border sticky top-0 backdrop-blur bg-black/70">
         <div className="container py-4 flex items-center justify-between">
           <div className="font-semibold tracking-wide">Video Downloader</div>
-          <a className="text-sm text-blue-300 hover:text-blue-200" href="/api/status" target="_blank" rel="noreferrer">API Status</a>
+          <a className="text-sm text-blue-300 hover:text-blue-200" href="/api/v0/status" target="_blank" rel="noreferrer">API Status</a>
         </div>
       </header>
       <main className="container py-8">
