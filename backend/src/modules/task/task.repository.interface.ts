@@ -1,7 +1,14 @@
+import { Readable } from 'stream';
 import { Task } from './task.entity';
 
+export type TaskCreateModel = {
+	link: string;
+	approximateSize: number;
+	stream: Readable;
+}
+
 export interface ITaskRepository {
-	create(link: string, approximateSize: number): Promise<Task>;
+	create(task: TaskCreateModel): Promise<Task>;
 	update(task: Partial<Task>): Promise<Task | null>;
 	delete(uuid: string): Promise<Task | null>;
 

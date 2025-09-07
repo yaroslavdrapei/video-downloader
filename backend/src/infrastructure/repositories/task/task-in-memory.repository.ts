@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/require-await */
 import { Injectable } from '@nestjs/common';
 import { Task } from '@src/modules/task/task.entity';
-import { ITaskRepository } from '@src/modules/task/task.repository.interface';
-import { Readable } from 'stream';
+import { ITaskRepository, TaskCreateModel } from '@src/modules/task/task.repository.interface';
 import { TaskStatus } from '@src/modules/task/task-status.enum';
 
 const tasks = new Map<string, Task>();
@@ -11,12 +10,12 @@ const tasks = new Map<string, Task>();
 export class TaskInMemoryRepository implements ITaskRepository {
 	constructor() {}
 
-	async create(link: string, approximateSize: number): Promise<Task> {
+	async create({ link, approximateSize, stream }: TaskCreateModel): Promise<Task> {
 		const uuid = crypto.randomUUID();
 		const task: Task = {
 			uuid,
 			link,
-			stream: new Readable(),
+			stream,
 			status: TaskStatus.DOWNLOADING,
 			downloaded: 0,
 			approximateSize
