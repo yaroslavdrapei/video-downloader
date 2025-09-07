@@ -5,7 +5,7 @@ const JSON_HEADERS = {
 };
 
 export async function getInfo(link: string, signal?: AbortSignal): Promise<InfoDto> {
-  const url = new URL('/api/info', window.location.origin);
+  const url = new URL('/api/v0/info', window.location.origin);
   url.searchParams.set('link', link);
   const res = await fetch(url.toString(), { signal });
   if (!res.ok) {
@@ -16,7 +16,7 @@ export async function getInfo(link: string, signal?: AbortSignal): Promise<InfoD
 }
 
 export async function downloadVideo(body: DownloadVideoRequestDto, signal?: AbortSignal): Promise<Blob> {
-  const res = await fetch('/api/download', {
+  const res = await fetch('/api/v0/download', {
     method: 'POST',
     headers: JSON_HEADERS,
     body: JSON.stringify(body),

@@ -11,6 +11,8 @@ async function bootstrap() {
 			whitelist: true
 		})
 	);
+	
+	app.setGlobalPrefix('api');
 
 	const config = new DocumentBuilder()
 		.setTitle('Video Downloader API')

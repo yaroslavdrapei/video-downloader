@@ -10,7 +10,7 @@ import contentDisposition from 'content-disposition';
 import { DownloaderInterceptor } from '@src/modules/downloader/downloader.interceptor';
 
 @ApiTags('Videos')
-@Controller('api')
+@Controller()
 export class AppController {
 	constructor(private readonly platformFactory: PlatformFactory) {}
 
@@ -20,7 +20,7 @@ export class AppController {
 		description: 'API is running',
 		example: { message: 'I am up and running' }
 	})
-	@Get('/status')
+	@Get('/v0/status')
 	status(): { message: string } {
 		return { message: 'I am up and running' };
 	}
@@ -37,7 +37,7 @@ export class AppController {
 		type: InfoDto
 	})
 	@ApiBadRequestResponse({ description: 'Bad Request: unsupported platform; formats could not be retrieved.' })
-	@Get('/info')
+	@Get('v0/info')
 	async getInfo(@Query('link') link: string): Promise<Info> {
 		const platform = this.platformFactory.get(link);
 
@@ -61,7 +61,7 @@ export class AppController {
 		description: 'Bad Request: unsupported platform; invalid format id; playlist not supported.'
 	})
 	@UseInterceptors(new DownloaderInterceptor())
-	@Post('/download')
+	@Post('v0/download')
 	async download(@Body() body: DownloadVideoRequestDto, @Res() response: Response): Promise<void> {
 		const { link, formatId } = body;
 		const platform = this.platformFactory.get(link);
