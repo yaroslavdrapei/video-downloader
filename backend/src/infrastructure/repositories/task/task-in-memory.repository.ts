@@ -10,7 +10,7 @@ const tasks = new Map<string, Task>();
 export class TaskInMemoryRepository implements ITaskRepository {
 	constructor() {}
 
-	async create({ link, approximateSize, stream }: TaskCreateModel): Promise<Task> {
+	async create({ link, approximateSize, stream, format, title }: TaskCreateModel): Promise<Task> {
 		const uuid = crypto.randomUUID();
 		const task: Task = {
 			uuid,
@@ -18,7 +18,9 @@ export class TaskInMemoryRepository implements ITaskRepository {
 			stream,
 			status: TaskStatus.DOWNLOADING,
 			downloaded: 0,
-			approximateSize
+			format,
+			approximateSize,
+			title
 		};
 		tasks.set(uuid, task);
 		return task;
